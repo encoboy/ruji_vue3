@@ -54,6 +54,9 @@ import { ref, reactive } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { loginApi } from "@/api/login";
 
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 const loading = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
@@ -75,10 +78,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       loading.value = true;
-      let res: any = await loginApi(ruleForm);
-      if (String(res.code) === "1") {
+      let { data } = await loginApi(ruleForm);
+      if (String(data.code) === "1") {
         //1表示登录成功
-        localStorage.setItem("userInfo", JSON.stringify(res.data));
+        localStorage.setItem("userInfo", JSON.stringify(data.data));
+        router.push("/home/member");
       } else {
         loading.value = false;
       }

@@ -10,9 +10,21 @@ const router = createRouter({
       component: Login,
     },
     {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/AboutView.vue"),
+      path: "/home",
+      name: "home",
+      component: () => import("@/views/home/index.vue"),
+      children: [
+        {
+          path: "member",
+          name: "member",
+          component: () => import("@/views/member/index.vue"),
+        },
+        {
+          path: "category",
+          name: "category",
+          component: () => import("@/views/category/index.vue"),
+        },
+      ],
     },
   ],
 });
